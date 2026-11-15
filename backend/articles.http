@@ -1,0 +1,48 @@
+### 1. Buat artikel
+POST http://localhost:3001/articles
+Content-Type: application/json
+
+{
+  "title": "belajar keamanan web",
+  "summary": "catatan dasar keamanan web",
+  "content": "ini adalah artikel untuk menguji API NestJS pada proyek KSBF.",
+  "image": ""
+}
+
+### 2. Daftar semua artikel
+GET http://localhost:3001/articles
+
+### 3. Ambil satu artikel (ganti ID)
+GET http://localhost:3001/articles/ISI_ID_DARI_POST
+
+### 4. Ubah artikel (ganti ID)
+PATCH http://localhost:3001/articles/ISI_ID_DARI_POST
+Content-Type: application/json
+
+{
+  "title": "belajar keamanan web dasar"
+}
+
+### 5. Hapus artikel (ganti ID)
+DELETE http://localhost:3001/articles/ISI_ID_DARI_POST
+
+### 6. Uji validasi (harus 400)
+POST http://localhost:3001/articles
+Content-Type: application/json
+
+{
+  "title": "a",
+  "content": "pendek"
+}
+
+### 7. Uji NotFound (harus 404)
+GET http://localhost:3001/articles/tidak-ada
+
+### 8. Uji Conflict (jalankan POST dengan judul yang sama dua kali)
+POST http://localhost:3001/articles
+Content-Type: application/json
+
+{
+  "title": "belajar keamanan web",
+  "content": "artikel untuk menguji judul duplikat pada backend KSBF."
+}
