@@ -33,21 +33,29 @@ function Home(props) {
                 <h2 className="mb-5 text-xl font-semibold">
                     <a href="/works" onClick={(event) => props.onNavigate(event, "/works")}>works</a>
                 </h2>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                    <article>
-                        <a
-                            href="/article-detail.html"
-                            onClick={(event) => props.onNavigate(event, "/article-detail.html")}
-                            className="flex items-center gap-3"
-                        >
-                            <img
-                                src="/images/x-logo.png"
-                                alt=""
-                                className="h-5 w-5"
-                            />
-                            how i hacked bernadya's x account
-                        </a>
-                    </article>
+                <div className="grid grid-cols-1 gap-6">
+                    {props.articles.map((article) => (
+                        <article key={article.id}>
+                            <a
+                                href={article.link}
+                                onClick={(event) => props.onNavigate(event, article.link)}
+                                className="flex items-center gap-3"
+                            >
+                                {article.image ? (
+                                    <img
+                                        src={article.image}
+                                        alt=""
+                                        className="h-5 w-5 shrink-0"
+                                    />
+                                ) : (
+                                    <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+                                        📄
+                                    </span>
+                                )}
+                                {article.title}
+                            </a>
+                        </article>
+                    ))}
                 </div>
             </section>
         </main>
@@ -205,7 +213,7 @@ function App() {
             <div className="mx-auto w-11/12 max-w-6xl">
                 <Navbar onNavigate={navigate} />
 
-                {path === "/" && <Home onNavigate={navigate} />}
+                {path === "/" && <Home articles={articles} onNavigate={navigate} />}
                 {path === "/works" && <Works articles={articles} onNavigate={navigate} />}
                 {path === "/article-detail.html" && <ArticleDetail onNavigate={navigate} />}
                 {path === "/contact" && <Contact />}

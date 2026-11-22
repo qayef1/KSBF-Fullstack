@@ -1,60 +1,63 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { randomUUID } from 'node:crypto';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
-import { Article } from './entities/article.entity';
 
 @Injectable()
 export class ArticlesService {
-    private articles: Article[] = [];
+    constructor(private readonly prisma: PrismaService) {}
 
-    findAll(): Article[] {
-        return this.articles;
+    findAll() {
+        return this.prisma.article.findMany({
+            orderBy: { createdAt: 'desc' }
+        });
     }
 
-    findOne(id: string): Article {
-        const article = this.articles.find((item) => item.id === id);
+    async findOne(id: string) {
+        const article = await this.prisma.article.findUnique({ where: { id } });
         if (!article) {
             throw new NotFoundException('Artikel tidak ditemukan');
         }
         return article;
     }
 
-    create(dto: CreateArticleDto): Article {
-        const existing = this.articles.find((item) => item.title === dto.title);
+    async create(dto: CreateArticleDto) {
+        const existing = await this.prisma.article.findUnique({
+            where: { title: dto.title }
+        });
         if (existing) {
             throw new ConflictException('Judul artikel sudah ada');
         }
 
-        const article: Article = {
-            id: randomUUID(),
-            title: dto.title,
-            summary: dto.summary ?? null,
-            content: dto.content,
-            image: dto.image ?? null,
-            published: true,
-            createdAt: new Date()
-        };
-
-        this.articles.push(article);
-        return article;
+        return this.prisma.article.create({
+            data: {
+                title: dto.title,
+                summary: dto.summary ?? null,
+                content: dto.content,
+                image: dto.image ?? null
+            }
+        });
     }
 
-    update(id: string, dto: UpdateArticleDto): Article {
-        const article = this.findOne(id);
+    async update(id: string, dto: UpdateArticleDto) {
+        await this.findOne(id);
         if (dto.title) {
-            const existing = this.articles.find((item) => item.title === dto.title && item.id !== id);
-            if (existing) {
+            const existing = await this.prisma.article.findUnique({
+                where: { title: dto.title }
+            });
+            if (existing && existing.id !== id) {
                 throw new ConflictException('Judul artikel sudah ada');
             }
         }
 
-        Object.assign(article, dto);
-        return article;
+        return this.prisma.article.update({
+            where: { id },
+            data: { ...dto }
+        });
     }
 
-    remove(id: string): void {
-        this.findOne(id);
-        this.articles = this.articles.filter((item) => item.id !== id);
+    async remove(id: string) {
+        await this.findOne(id);
+        await this.prisma.article.delete({ where: { id } });
     }
 }

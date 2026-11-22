@@ -11,7 +11,7 @@ function ArticleDetail(props) {
                         ← Back to works
                     </a>
 
-                    <h1 className="mb-5 mt-12 text-3xl font-semibold md:text-5xl">
+                    <h1 className="mb-5 mt-12 break-words text-3xl font-semibold md:text-5xl">
                         {props.article.title}
                     </h1>
 
@@ -24,12 +24,12 @@ function ArticleDetail(props) {
                     )}
 
                     {props.article.summary && (
-                        <p className="mt-6 mb-12 text-xl text-gray-400 italic">
+                        <p className="mt-6 mb-12 break-words text-xl text-gray-400 italic">
                             {props.article.summary}
                         </p>
                     )}
 
-                    <p className="mt-10 whitespace-pre-line leading-relaxed">
+                    <p className="mt-10 whitespace-pre-line break-words leading-relaxed">
                         {props.article.content}
                     </p>
                 </article>

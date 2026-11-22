@@ -3,9 +3,9 @@ POST http://localhost:3001/articles
 Content-Type: application/json
 
 {
-  "title": "belajar keamanan web",
-  "summary": "catatan dasar keamanan web",
-  "content": "ini adalah artikel untuk menguji API NestJS pada proyek KSBF.",
+  "title": "testing crud persistence",
+  "summary": "tes doangggggggggg",
+  "content": "netanyahu cepet mati tolong PERISH JUDAH",
   "image": ""
 }
 
@@ -13,18 +13,18 @@ Content-Type: application/json
 GET http://localhost:3001/articles
 
 ### 3. Ambil satu artikel (ganti ID)
-GET http://localhost:3001/articles/ISI_ID_DARI_POST
+GET http://localhost:3001/articles/c737eb42-f756-4774-a9e9-237baffa240f
 
 ### 4. Ubah artikel (ganti ID)
-PATCH http://localhost:3001/articles/ISI_ID_DARI_POST
+PATCH http://localhost:3001/articles/c737eb42-f756-4774-a9e9-237baffa240f
 Content-Type: application/json
 
 {
-  "title": "belajar keamanan web dasar"
+  "title": "tes patch http request"
 }
 
 ### 5. Hapus artikel (ganti ID)
-DELETE http://localhost:3001/articles/ISI_ID_DARI_POST
+DELETE http://localhost:3001/articles/c737eb42-f756-4774-a9e9-237baffa240f
 
 ### 6. Uji validasi (harus 400)
 POST http://localhost:3001/articles
@@ -43,6 +43,6 @@ POST http://localhost:3001/articles
 Content-Type: application/json
 
 {
-  "title": "belajar keamanan web",
+  "title": "tes migrasi prisma edittttt",
   "content": "artikel untuk menguji judul duplikat pada backend KSBF."
 }
